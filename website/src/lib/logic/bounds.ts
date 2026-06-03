@@ -75,7 +75,7 @@ export class BoundsManager {
         this._unsubscribes.push(
             map.subscribe((map_) => {
                 if (!map_) return;
-                map_.fitBounds(this._bounds, { padding: 80, linear: true, easing: () => 1 });
+                map_.fitBounds(this._bounds, { padding: 80, linear: true, animate: false });
                 this.reset();
             })
         );

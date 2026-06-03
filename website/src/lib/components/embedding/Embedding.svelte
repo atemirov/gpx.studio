@@ -45,26 +45,6 @@
     settings.initialize();
 
     function applyOptions() {
-        let downloads: Promise<GPXFile | null>[] = getFilesFromEmbeddingOptions(options).map(
-            (url) => {
-                return fetch(url)
-                    .then((response) => response.blob())
-                    .then((blob) => new File([blob], url.split('/').pop() ?? url))
-                    .then(loadFile);
-            }
-        );
-        Promise.all(downloads).then((answers) => {
-            const files = answers.filter((file) => file !== null) as GPXFile[];
-            let ids: string[] = [];
-            files.forEach((file, index) => {
-                let id = `gpx-${index}-embed`;
-                file._data.id = id;
-                ids.push(id);
-            });
-            fileStateCollection.setEmbeddedFiles(files);
-            $fileOrder = ids;
-            selection.selectAll();
-        });
         if (allowedEmbeddingBasemaps.includes(options.basemap)) {
             $currentBasemap = options.basemap;
         }
@@ -90,6 +70,27 @@
             ].filter((dataset) => dataset !== null)
         );
         elevationFill.set(options.elevation.fill == 'none' ? undefined : options.elevation.fill);
+
+        let downloads: Promise<GPXFile | null>[] = getFilesFromEmbeddingOptions(options).map(
+            (url) => {
+                return fetch(url)
+                    .then((response) => response.blob())
+                    .then((blob) => new File([blob], url.split('/').pop() ?? url))
+                    .then(loadFile);
+            }
+        );
+        Promise.all(downloads).then((answers) => {
+            const files = answers.filter((file) => file !== null) as GPXFile[];
+            let ids: string[] = [];
+            files.forEach((file, index) => {
+                let id = `gpx-${index}-embed`;
+                file._data.id = id;
+                ids.push(id);
+            });
+            fileStateCollection.setEmbeddedFiles(files);
+            $fileOrder = ids;
+            selection.selectAll();
+        });
     }
 
     $effect(() => {
