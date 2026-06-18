@@ -70,8 +70,9 @@ This project has been made possible thanks to the following open source projects
     - [SortableJS](https://github.com/SortableJS/Sortable) — creating a sortable file tree
 - Mapping:
     - [MapLibre GL JS](https://github.com/maplibre/maplibre-gl-js) — beautiful and fast interactive map rendering
-    - [GraphHopper](https://github.com/graphhopper/graphhopper) — routing engine
-    - [OpenStreetMap](https://www.openstreetmap.org) — map data used by most of the map layers, and by the routing engine
+    - [GraphHopper](https://github.com/graphhopper/graphhopper) — powerful routing engine
+    - [OpenStreetMap](https://www.openstreetmap.org) — open map data used by most of the map layers, and by the routing engine
+    - [Mapterhorn](https://github.com/mapterhorn/mapterhorn) — high-quality open terrain data used by some map layers (including for 3D), and by the routing engine
 - Search:
     - [DocSearch](https://github.com/algolia/docsearch) — search engine for the documentation
 

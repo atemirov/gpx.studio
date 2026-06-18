@@ -1449,7 +1449,7 @@ export const overpassQueryData: Record<string, OverpassQueryData> = {
             color: 'DarkBlue',
         },
         tags: {
-            railway: 'station',
+            railway: ['station', 'halt'],
         },
         symbol: 'Ground Transportation',
     },
