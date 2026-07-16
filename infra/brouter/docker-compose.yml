@@ -1,0 +1,21 @@
+services:
+  brouter:
+    # :latest на момент проверки (2026-07) несовместим по формату сегментов
+    # с текущими .rd5 на brouter.de (lookups.dat version mismatch) — используем :nightly
+    image: ghcr.io/abrensch/brouter:nightly
+    container_name: gpx_brouter
+    restart: unless-stopped
+    # Порт публикуем только на loopback — наружу торчит через reverse-proxy
+    # основного nginx сайта (infra/deploy/nginx.conf, location /routing/).
+    ports:
+      - "127.0.0.1:17777:17777"
+    volumes:
+      - ./segments4:/segments4:ro
+      # Штатные профили из образа (/profiles2) не переопределяем —
+      # кастомные профили (например, "эндуро" на базе вело) кладём сюда:
+      - ./customprofiles:/customprofiles:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
