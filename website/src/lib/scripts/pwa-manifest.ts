@@ -10,7 +10,7 @@ function localizeManifest(manifestTemplateData: any, language: string) {
     manifestTemplateData.lang = language;
     manifestTemplateData.start_url = `/${language}/app`;
     manifestTemplateData.scope = `/${language}/app`;
-    manifestTemplateData.id = `https://gpx.studio/${language}/app`;
+    manifestTemplateData.id = `https://gpx.atemirov.ru/${language}/app`;
 
     fs.writeFileSync(localizedManifestFile, JSON.stringify(manifestTemplateData, null, 2));
 }

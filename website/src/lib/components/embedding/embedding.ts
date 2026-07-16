@@ -29,7 +29,7 @@ export const defaultEmbeddingOptions = {
     key: '',
     files: [],
     ids: [],
-    basemap: 'libertyTopo',
+    basemap: 'openFreeMap',
     elevation: {
         show: true,
         height: 170,
@@ -126,7 +126,7 @@ export function convertOldEmbeddingOptions(options: URLSearchParams): any {
     if (options.has('source')) {
         let basemap = options.get('source')!;
         if (basemap === 'satellite') {
-            newOptions.basemap = 'libertySatellite';
+            newOptions.basemap = 'esriSatellite';
         } else if (basemap === 'otm') {
             newOptions.basemap = 'openTopoMap';
         } else if (basemap === 'ohm') {

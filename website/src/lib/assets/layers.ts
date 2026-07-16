@@ -31,14 +31,12 @@ import bikerouterGravel from './custom/bikerouter-gravel.json';
 export const maptilerKeyPlaceHolder = 'MAPTILER_KEY';
 
 export const basemaps: { [key: string]: string | StyleSpecification } = {
-    // Базовый слой по умолчанию для форка: без ключа и лимитов, открытый CORS
-    // (styles.gpx.studio ниже отдают Access-Control-Allow-Origin только для
-    // своего домена gpx.studio — не работают на самостоятельном хостинге).
+    // Базовый слой по умолчанию для форка: без ключа и лимитов, открытый CORS.
+    // Стили styles.gpx.studio (Liberty Topo/Satellite, OSM, OSM Topo) убраны — весь их
+    // тайловый пайплайн (openmaptiles, hillshading, contours, sprites, шрифты) отдаёт
+    // Access-Control-Allow-Origin только для gpx.studio, самостоятельно не поднять без
+    // повторения их инфраструктуры (см. CLAUDE.md).
     openFreeMap: 'https://tiles.openfreemap.org/styles/liberty',
-    libertyTopo: 'https://styles.gpx.studio/liberty-topo.json',
-    libertySatellite: 'https://styles.gpx.studio/liberty-satellite.json',
-    osm: 'https://styles.gpx.studio/osm.json',
-    osmTopo: 'https://styles.gpx.studio/osm-topo.json',
     esriSatellite: {
         version: 8,
         sources: {
@@ -804,10 +802,6 @@ export const basemapTree: LayerTreeType = {
     basemaps: {
         world: {
             openFreeMap: true,
-            libertyTopo: true,
-            libertySatellite: true,
-            osm: true,
-            osmTopo: true,
             esriSatellite: true,
             openStreetMap: true,
             openTopoMap: true,
@@ -1032,10 +1026,6 @@ export const defaultBasemapTree: LayerTreeType = {
     basemaps: {
         world: {
             openFreeMap: true,
-            libertyTopo: true,
-            libertySatellite: true,
-            osm: true,
-            osmTopo: true,
             esriSatellite: false,
             openStreetMap: true,
             openTopoMap: true,
@@ -1494,9 +1484,12 @@ export const overpassQueryData: Record<string, OverpassQueryData> = {
 };
 
 export const terrainSources: { [key: string]: RasterDEMSourceSpecification } = {
+    // tiles.gpx.studio — приватное зеркало Mapterhorn, блокирует CORS для чужих доменов
+    // (см. CLAUDE.md). Настоящий открытый источник — tiles.mapterhorn.com (используется
+    // ниже же для оверлея mapterhornHillshade), CORS открыт для всех.
     mapterhorn: {
         type: 'raster-dem',
-        url: 'https://tiles.gpx.studio/mapterhorn.json',
+        url: 'https://tiles.mapterhorn.com/tilejson.json',
         encoding: 'terrarium',
     },
 };

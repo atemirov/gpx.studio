@@ -7,6 +7,7 @@ import maplibregl from 'maplibre-gl';
 import { pointToTile, pointToTileFraction } from '@mapbox/tilebelt';
 import type { GPXStatisticsTree } from '$lib/logic/statistics-tree';
 import { ListTrackSegmentItem } from '$lib/components/file-list/file-list';
+import { PUBLIC_ELEVATION_URL } from '$env/static/public';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -98,6 +99,12 @@ export function getClosestTrackSegments(
     return closest.indices;
 }
 
+// Terrarium-кодирование (elevation_m = -32768 + R*256 + G + B/256), тайлы 512x512.
+// tiles.gpx.studio/mapterhorn — приватное зеркало, блокирует CORS для чужих доменов
+// (см. CLAUDE.md, "Внешние сервисы") — по умолчанию берём настоящий открытый источник
+// tiles.mapterhorn.com напрямую (тот же, что используется для оверлея hillshade).
+const ELEVATION_BASE_URL = PUBLIC_ELEVATION_URL || 'https://tiles.mapterhorn.com';
+
 export function getElevation(
     points: (TrackPoint | Waypoint | Coordinates)[],
     ELEVATION_ZOOM: number = 12,
@@ -121,13 +128,17 @@ export function getElevation(
     };
 
     let promises = uniqueTiles.map((tile) =>
-        fetch(`https://tiles.gpx.studio/mapterhorn/${ELEVATION_ZOOM}/${tile[0]}/${tile[1]}.webp`, {
+        fetch(`${ELEVATION_BASE_URL}/${ELEVATION_ZOOM}/${tile[0]}/${tile[1]}.webp`, {
             cache: 'force-cache',
         })
-            .then((response) => response.blob())
+            .then((response) => (response.ok ? response.blob() : undefined))
             .then(
                 (blob) =>
                     new Promise<void>((resolve) => {
+                        if (!blob) {
+                            resolve();
+                            return;
+                        }
                         const url = URL.createObjectURL(blob);
                         const img = new Image();
                         img.onload = () => {
@@ -150,6 +161,9 @@ export function getElevation(
                         img.src = url;
                     })
             )
+            // Источник высот недоступен (сеть, CORS, 5xx) — деградируем без высоты,
+            // а не роняем весь Promise.all (было: точка не сохранялась вообще).
+            .catch(() => undefined)
     );
 
     return Promise.all(promises).then(() =>

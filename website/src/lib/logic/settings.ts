@@ -260,7 +260,6 @@ export const settings = {
             'bike'
         )
     ),
-    privateRoads: new Setting('privateRoads', false),
     currentBasemap: new Setting(
         'currentBasemap',
         defaultBasemap,

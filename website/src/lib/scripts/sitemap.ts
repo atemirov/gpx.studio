@@ -3,7 +3,7 @@ import { glob } from 'glob';
 import { languages } from '$lib/languages';
 
 function getURLForLanguage(lang: string, path: string): string {
-    return `https://gpx.studio${lang === 'en' ? '' : `/${lang}`}${path}`;
+    return `https://gpx.atemirov.ru${lang === 'en' ? '' : `/${lang}`}${path}`;
 }
 
 function generateSitemap() {
