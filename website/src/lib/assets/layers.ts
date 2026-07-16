@@ -31,6 +31,10 @@ import bikerouterGravel from './custom/bikerouter-gravel.json';
 export const maptilerKeyPlaceHolder = 'MAPTILER_KEY';
 
 export const basemaps: { [key: string]: string | StyleSpecification } = {
+    // Базовый слой по умолчанию для форка: без ключа и лимитов, открытый CORS
+    // (styles.gpx.studio ниже отдают Access-Control-Allow-Origin только для
+    // своего домена gpx.studio — не работают на самостоятельном хостинге).
+    openFreeMap: 'https://tiles.openfreemap.org/styles/liberty',
     libertyTopo: 'https://styles.gpx.studio/liberty-topo.json',
     libertySatellite: 'https://styles.gpx.studio/liberty-satellite.json',
     osm: 'https://styles.gpx.studio/osm.json',
@@ -799,6 +803,7 @@ export type LayerTreeType = { [key: string]: LayerTreeType | boolean };
 export const basemapTree: LayerTreeType = {
     basemaps: {
         world: {
+            openFreeMap: true,
             libertyTopo: true,
             libertySatellite: true,
             osm: true,
@@ -935,8 +940,9 @@ export const overpassTree: LayerTreeType = {
     },
 };
 
-// Default basemap used
-export const defaultBasemap = 'libertyTopo';
+// Default basemap used — OpenFreeMap: без ключа, без лимитов, открытый CORS
+// (в отличие от styles.gpx.studio, которые пускают только с их домена)
+export const defaultBasemap = 'openFreeMap';
 
 // Default overlays used (none)
 export const defaultOverlays: LayerTreeType = {
@@ -1025,6 +1031,7 @@ export const defaultOverpassQueries: LayerTreeType = {
 export const defaultBasemapTree: LayerTreeType = {
     basemaps: {
         world: {
+            openFreeMap: true,
             libertyTopo: true,
             libertySatellite: true,
             osm: true,
