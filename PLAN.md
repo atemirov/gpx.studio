@@ -52,13 +52,18 @@
 - `sitemap.ts`/`pwa-manifest.ts` — hardcoded `gpx.studio` → `gpx.atemirov.ru` (реальный баг:
   sitemap.xml и PWA-манифест указывали на чужой домен, не просто брендинг).
 - embedding.ts/embed-страница — дефолтный basemap для embed-виджета переключён на openFreeMap/esriSatellite.
-- **Не сделано, отдельная задача:** `overpass.gpx.studio` (слой точек интереса) тоже CORS-заблокирован
-  (подтверждено: нет `Access-Control-Allow-Origin` ни на GET, ни на OPTIONS preflight). Публичный
-  `overpass-api.de` стабильно отдаёт 406 Not Acceptable на `/api/interpreter` (и curl, и реальный
-  браузер) при рабочем `/api/status` — причина неясна, не похоже на CORS. `overpass.kumi.systems`
-  не протестирован до конца (нестабильность browser-инструмента агента). Требует отдельного захода.
+- `overpass-layer.ts` (слой точек интереса) — ✅ **done** (2026-07-16). `overpass.gpx.studio`
+  подтверждённо CORS-заблокирован (нет `Access-Control-Allow-Origin` ни на GET, ни на OPTIONS
+  preflight). Публичный `overpass-api.de` стабильно отдаёт 406 Not Acceptable на `/api/interpreter`
+  независимо от формата запроса (curl и браузер, причина не установлена — `/api/status` у них
+  при этом отвечает нормально); `overpass.private.coffee` не отвечает (таймаут); у Яндекса своего
+  Overpass-прокси нет (только платное Maps API — другой продукт). Рабочий вариант — прокси Overpass
+  от Mail.ru Карт (`maps.mail.ru/osm/tools/overpass/api/interpreter`), открытый CORS, российская
+  инфраструктура, проверено вживую (запрос с реальным bbox+тегами вернул 200 и корректный OSM JSON).
 - Ещё остаётся: брендинг (Footer, Logo, заголовки, ссылки на gpx.studio GitHub/Facebook/email,
   embed-виджет со ссылкой на их домен) — это уже Фаза 3, нужны решения пользователя (имя/домен/логотип).
+
+**На этом полная независимость от инфраструктуры gpx.studio (кроме брендинга) достигнута.**
 
 **Фазы 3–6 — не начаты.**
 
