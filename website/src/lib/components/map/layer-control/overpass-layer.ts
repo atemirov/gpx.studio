@@ -24,7 +24,10 @@ liveQuery(() => db.overpassdata.toArray()).subscribe((pois) => {
 });
 
 export class OverpassLayer {
-    overpassUrl = 'https://overpass.gpx.studio/api/interpreter';
+    // overpass.gpx.studio блокирует CORS для чужих доменов (см. CLAUDE.md). Публичный
+    // overpass-api.de даёт 406 на /api/interpreter (причина не установлена), поэтому
+    // используем прокси Overpass от Mail.ru Карт — открытый CORS, проверено вживую.
+    overpassUrl = 'https://maps.mail.ru/osm/tools/overpass/api/interpreter';
     minZoom = 12;
     queryZoom = 12;
     expirationTime = 7 * 24 * 3600 * 1000;
