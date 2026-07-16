@@ -3,8 +3,13 @@ import { TrackPoint, distance } from 'gpx';
 import { settings } from '$lib/logic/settings';
 import { getElevation } from '$lib/utils';
 import { get } from 'svelte/store';
+import { PUBLIC_ROUTING_URL } from '$env/static/public';
 
 const { routing, routingProfile, privateRoads } = settings;
+
+// Self-hosted BRouter (infra/brouter/); при пустом PUBLIC_ROUTING_URL — публичный
+// инстанс проекта BRouter как фолбэк (см. CLAUDE.md, "Внешние сервисы").
+const BROUTER_BASE_URL = PUBLIC_ROUTING_URL || 'https://brouter.de';
 
 export type RoutingProfile = {
     engine: 'graphhopper' | 'brouter';
@@ -12,11 +17,14 @@ export type RoutingProfile = {
 };
 
 export const routingProfiles: { [key: string]: RoutingProfile } = {
-    bike: { engine: 'graphhopper', profile: 'bike' },
-    racing_bike: { engine: 'graphhopper', profile: 'racingbike' },
-    gravel_bike: { engine: 'graphhopper', profile: 'gravelbike' },
-    mountain_bike: { engine: 'graphhopper', profile: 'mtb' },
-    foot: { engine: 'graphhopper', profile: 'foot' },
+    // Профили BRouter — штатные из образа ghcr.io/abrensch/brouter (см.
+    // infra/brouter/README.md, раздел "Профили"). Для мотоцикла в BRouter
+    // нет подходящего штатного профиля — остаётся на GraphHopper.
+    bike: { engine: 'brouter', profile: 'trekking' },
+    racing_bike: { engine: 'brouter', profile: 'fastbike' },
+    gravel_bike: { engine: 'brouter', profile: 'gravel' },
+    mountain_bike: { engine: 'brouter', profile: 'mtb' },
+    foot: { engine: 'brouter', profile: 'hiking-mountain' },
     motorcycle: { engine: 'graphhopper', profile: 'motorbike' },
     water: { engine: 'brouter', profile: 'river' },
     railway: { engine: 'brouter', profile: 'rail' },
@@ -54,48 +62,9 @@ const mtbRatingToScale: { [key: string]: string } = {
     '7': '6',
 };
 
+// Только motorbike маршрутизируется через GraphHopper — остальные профили теперь на BRouter.
 const graphhopperBlockPrivateCustomModels: { [key: string]: any } = {
-    bike: {
-        priority: [
-            {
-                if: 'bike_road_access == PRIVATE',
-                multiply_by: '0.0',
-            },
-        ],
-    },
-    racingbike: {
-        priority: [
-            {
-                if: 'bike_road_access == PRIVATE',
-                multiply_by: '0.0',
-            },
-        ],
-    },
-    gravelbike: {
-        priority: [
-            {
-                if: 'bike_road_access == PRIVATE',
-                multiply_by: '0.0',
-            },
-        ],
-    },
-    mtb: {
-        priority: [
-            {
-                if: 'bike_road_access == PRIVATE',
-                multiply_by: '0.0',
-            },
-        ],
-    },
-    foot: {
-        priority: [
-            {
-                if: 'foot_road_access == PRIVATE',
-                multiply_by: '0.0',
-            },
-        ],
-    },
-    motorcycle: {
+    motorbike: {
         priority: [
             {
                 if: 'road_access == PRIVATE',
@@ -196,7 +165,7 @@ async function getBRouterRoute(
     points: Coordinates[],
     brouterProfile: string
 ): Promise<TrackPoint[]> {
-    let url = `https://brouter.de/brouter?lonlats=${points.map((point) => `${point.lon.toFixed(8)},${point.lat.toFixed(8)}`).join('|')}&profile=${brouterProfile}&format=geojson&alternativeidx=0`;
+    let url = `${BROUTER_BASE_URL}/brouter?lonlats=${points.map((point) => `${point.lon.toFixed(8)},${point.lat.toFixed(8)}`).join('|')}&profile=${brouterProfile}&format=geojson&alternativeidx=0`;
 
     let response = await fetch(url);
 

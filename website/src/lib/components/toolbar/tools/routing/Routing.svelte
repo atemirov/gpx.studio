@@ -177,13 +177,16 @@
                             </Select.Content>
                         </Select.Root>
                     </Label>
-                    <Label class="justify-between">
-                        <span class="flex flex-row gap-1">
-                            <TriangleAlert size="16" />
-                            {i18n._('toolbar.routing.allow_private')}
-                        </span>
-                        <Switch bind:checked={$privateRoads} />
-                    </Label>
+                    {#if routingProfiles[$routingProfile].engine === 'graphhopper'}
+                        <!-- privateRoads влияет только на GraphHopper (custom_model) -->
+                        <Label class="justify-between">
+                            <span class="flex flex-row gap-1">
+                                <TriangleAlert size="16" />
+                                {i18n._('toolbar.routing.allow_private')}
+                            </span>
+                            <Switch bind:checked={$privateRoads} />
+                        </Label>
+                    {/if}
                 </div>
             {/if}
         </div>
