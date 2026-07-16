@@ -17,7 +17,12 @@
 **Фаза 1 — не начата.** `docs/ARCHITECTURE.md` не написан.
 
 **Фаза 2 — частично.**
-- Задача 2.1 (тайлы) — не начата.
+- Задача 2.1 (тайлы) — не начата. **Обнаружено на живом домене (2026-07-16): карта сейчас полностью
+  чёрная** — базовая карта (`styles.gpx.studio/liberty-topo.json`) и рельеф
+  (`tiles.gpx.studio/mapterhorn.json`) блокируются CORS для любого origin, кроме `https://gpx.studio`
+  (тот же паттерн, что и был с graphhopper — см. выше). Проверено: OpenFreeMap
+  (`tiles.openfreemap.org`) отдаёт `Access-Control-Allow-Origin: *`, подходит как замену без
+  дополнительных танцев. До выполнения этой задачи карта на `gpx.atemirov.ru` не работает вообще.
 - Задача 2.2 (роутинг/BRouter) — **done, включая frontend.** BRouter (`ghcr.io/abrensch/brouter:nightly`)
   развёрнут на VPS в `/opt/gpx-editor/infra/brouter` (git-путь, не разъезжается с репо), сегменты
   ЦФО (~130 МБ, см. исправленную оценку ниже), проверен маршрутами Тверь→Торжок и mtb-профилем.
