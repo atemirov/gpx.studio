@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install*)",
+      "Bash(npm run *)",
+      "Bash(npm test*)",
+      "Bash(npx vitest*)",
+      "Bash(git add*)",
+      "Bash(git commit*)",
+      "Bash(git checkout*)",
+      "Bash(git diff*)",
+      "Bash(git status*)",
+      "Bash(git branch*)"
+    ],
+    "ask": [
+      "Bash(git push*)",
+      "Bash(ssh*)",
+      "Bash(rsync*)",
+      "Bash(scp*)"
+    ]
+  }
+}
