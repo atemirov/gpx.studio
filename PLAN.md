@@ -403,16 +403,11 @@ CORS и формат ответа подтверждены curl'ом на реа
 
 > Промпт: Настрой GitHub Actions: на PR — lint + build + тесты; на push в main — сборка статики и деплой на VPS (rsync по SSH, секреты в GitHub Secrets). В infra/deploy — конфиг nginx: статика + gzip/brotli + кэш-заголовки + реверс на BRouter. Напиши smoke-чеклист релиза в docs/RELEASE.md.
 
-**Найдено 2026-07-17, требует твоего решения:** `.github/workflows/deploy.yml` — унаследован из
-апстрима, настроен на push в `main` собирать сайт и деплоить на **GitHub Pages** (не на наш VPS!),
-используя секрет `PUBLIC_MAPTILER_KEY`. **Проверено через `api.github.com/repos/atemirov/
-gpx.studio/actions/workflows/deploy.yml/runs`: `total_count: 0`** — ни разу не запускался, все
-~25+ коммитов этой сессии его не триггерили. Это ожидаемо: GitHub отключает Actions на форках по
-умолчанию, пока владелец не включит вручную (Settings → Actions → разрешить). Раз не включено —
-ничего не сломано, беспокоиться не о чем, просто мёртвый (пока) файл в репозитории.
-**Варианты на будущее:** (1) удалить workflow — GitHub Pages нам не нужен, деплоим на свой VPS;
-(2) оставить как бесплатный staging-сайт-зеркало (нужно включить Actions в настройках + добавить
-`PUBLIC_MAPTILER_KEY` в GitHub Secrets); (3) переделать в реальный CI/CD на VPS (см. ниже).
+**Решено пользователем 2026-07-17: `.github/workflows/deploy.yml` удалён.** Был унаследован из
+апстрима, настроен на push в `main` собирать сайт и деплоить на GitHub Pages (не на наш VPS!).
+Подтверждено через `api.github.com/.../actions/workflows/deploy.yml/runs`: `total_count: 0` — ни
+разу не запускался (Actions отключены на форке по умолчанию), удаление ничего не ломает.
+GitHub Pages не нужен — деплоим на свой VPS вручную (`infra/deploy/README.md`).
 
 **Сделано частично (безопасная часть, не трогающая внешние секреты/боевой автодеплой):**
 - `infra/deploy/nginx.conf` — добавлены `gzip_vary`/`gzip_comp_level`, кэш-заголовки для
