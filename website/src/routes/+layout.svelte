@@ -46,11 +46,11 @@
                         goto(`${base}/404`);
                     }
                 }
-            } else if (i18n.lang !== 'en') {
-                i18n.lang = 'en';
+            } else if (i18n.lang !== 'ru') {
+                i18n.lang = 'ru';
             }
         } else if (i18n.lang === '') {
-            i18n.lang = 'en';
+            i18n.lang = 'ru';
         }
     });
 

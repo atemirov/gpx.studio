@@ -232,21 +232,21 @@ export function getURLForLanguage(lang: string, path: string): string {
 
     let languageInPath = newPath.split('/')[1];
     if (!languages.hasOwnProperty(languageInPath)) {
-        languageInPath = 'en';
+        languageInPath = 'ru';
     }
 
-    if (newPath === '/' && lang !== 'en') {
+    if (newPath === '/' && lang !== 'ru') {
         newPath = '';
     }
 
-    if (languageInPath === 'en') {
-        if (lang === 'en') {
+    if (languageInPath === 'ru') {
+        if (lang === 'ru') {
             return `${base}${newPath}`;
         } else {
             return `${base}/${lang}${newPath}`;
         }
     } else {
-        if (lang === 'en') {
+        if (lang === 'ru') {
             newPath = newPath.replace(`/${languageInPath}`, '');
             return newPath === '' ? `${base}/` : `${base}${newPath}`;
         } else {

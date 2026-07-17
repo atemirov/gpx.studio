@@ -40,7 +40,7 @@
         } else if (language?.includes('-')) {
             language = language.split('-')[0];
         } else if (language === '' || language === undefined) {
-            language = 'en';
+            language = 'ru';
         }
 
         map.init(maptilerKey, language, hash, geocoder, geolocate);

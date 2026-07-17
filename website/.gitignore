@@ -13,4 +13,4 @@ vite.config.ts.timestamp-*
 /blob-report
 /playwright/.cache
 static/*.webmanifest
-!static/en.manifest.webmanifest
+!static/ru.manifest.webmanifest

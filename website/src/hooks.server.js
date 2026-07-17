@@ -3,7 +3,7 @@ import { languages } from '$lib/languages';
 import { getURLForLanguage } from '$lib/utils';
 
 export async function handle({ event, resolve }) {
-    const language = event.params.language ?? 'en';
+    const language = event.params.language ?? 'ru';
     const strings = await import(`./locales/${language}.json`);
 
     const path = event.url.pathname;
@@ -29,7 +29,7 @@ export async function handle({ event, resolve }) {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "gpx.studio",
-        "url": "https://gpx.studio"
+        "url": "https://gpx.atemirov.ru"
     }
     </script>
     <meta name="description" content="${description}" />
@@ -37,21 +37,21 @@ export async function handle({ event, resolve }) {
     <meta property="og:description" content="${description}" />
     <meta name="twitter:title" content="gpx.studio — ${title}" />
     <meta name="twitter:description" content="${description}" />
-    <meta property="og:image" content="https://gpx.studio${base}/og_logo.png" />
-    <meta property="og:url" content="https://gpx.studio/" />
+    <meta property="og:image" content="https://gpx.atemirov.ru${base}/og_logo.png" />
+    <meta property="og:url" content="https://gpx.atemirov.ru/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="gpx.studio" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://gpx.studio${base}/og_logo.png" />
-    <meta name="twitter:url" content="https://gpx.studio/" />
+    <meta name="twitter:image" content="https://gpx.atemirov.ru${base}/og_logo.png" />
+    <meta name="twitter:url" content="https://gpx.atemirov.ru/" />
     <meta name="twitter:site" content="@gpxstudio" />
     <meta name="twitter:creator" content="@gpxstudio" />
-    <link rel="alternate" hreflang="x-default" href="https://gpx.studio${getURLForLanguage('en', path)}" />
+    <link rel="alternate" hreflang="x-default" href="https://gpx.atemirov.ru${getURLForLanguage('ru', path)}" />
     <link rel="manifest" href="/${language}.manifest.webmanifest" />`;
 
     if (page !== '404') {
         for (let lang of Object.keys(languages)) {
-            headTag += `   <link rel="alternate" hreflang="${lang}" href="https://gpx.studio${getURLForLanguage(lang, path)}" />
+            headTag += `   <link rel="alternate" hreflang="${lang}" href="https://gpx.atemirov.ru${getURLForLanguage(lang, path)}" />
 `;
         }
     }

@@ -7,12 +7,12 @@ export const entries: EntryGenerator = () => {
     for (let lang of Object.keys(languages)) {
         for (let guide of Object.keys(guides)) {
             entries.push({
-                language: lang == 'en' ? '' : lang,
+                language: lang == 'ru' ? '' : lang,
                 guide,
             });
             for (let subguide of guides[guide]) {
                 entries.push({
-                    language: lang == 'en' ? '' : lang,
+                    language: lang == 'ru' ? '' : lang,
                     guide: `${guide}/${subguide}`,
                 });
             }

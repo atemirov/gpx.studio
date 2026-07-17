@@ -1,0 +1,18 @@
+{
+  "name": "gpx.studio",
+  "short_name": "gpx.studio",
+  "description": "Просматривайте, редактируйте, создавайте GPX файлы онлайн с расширенными возможностями планирования маршрутов и инструментами обработки файлов, красивыми картами и детальной визуализацией данных.",
+  "start_url": "/app",
+  "display": "standalone",
+  "lang": "ru",
+  "scope": "/app",
+  "id": "https://gpx.atemirov.ru/app",
+  "icons": [
+    {
+      "src": "pwa-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

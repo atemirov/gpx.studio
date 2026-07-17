@@ -28,7 +28,7 @@ class Locale {
 
         return typeof value === 'string' ? value : key;
     });
-    private _df = $derived(getDateFormatter(this._lang === '' ? 'en' : this._lang));
+    private _df = $derived(getDateFormatter(this._lang === '' ? 'ru' : this._lang));
 
     public set lang(lang: string) {
         this._lang = lang;

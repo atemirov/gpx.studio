@@ -15,9 +15,9 @@ function localizeManifest(manifestTemplateData: any, language: string) {
     fs.writeFileSync(localizedManifestFile, JSON.stringify(manifestTemplateData, null, 2));
 }
 
-const manifestTemplateFile = 'static/en.manifest.webmanifest';
+const manifestTemplateFile = 'static/ru.manifest.webmanifest';
 const manifestTemplateData = JSON.parse(fs.readFileSync(manifestTemplateFile, 'utf8'));
 for (const language of Object.keys(languages)) {
-    if (language === 'en') continue;
+    if (language === 'ru') continue;
     localizeManifest(manifestTemplateData, language);
 }

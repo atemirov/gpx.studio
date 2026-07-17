@@ -1,7 +1,7 @@
 import { guides } from '$lib/components/docs/docs';
 
 function getModule(language: string | undefined, guide: string) {
-    language = language ?? 'en';
+    language = language ?? 'ru';
     let subguide = undefined;
     if (guide.includes('/')) {
         [guide, subguide] = guide.split('/');
