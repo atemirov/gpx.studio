@@ -334,6 +334,7 @@
             "usgs": "USGS",
             "bikerouterGravel": "bikerouter.de Gravel",
             "cyclOSMlite": "CyclOSM Lite",
+            "gpsTraces": "GPS-треки OSM",
             "mapterhornHillshade": "Mapterhorn тень холма",
             "openRailwayMap": "OpenRailwayMap",
             "swisstopoSlope": "swisstopo Slope",

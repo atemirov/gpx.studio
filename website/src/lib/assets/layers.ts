@@ -23,12 +23,17 @@ import {
     Toilet,
 } from 'lucide-static';
 import { type RasterDEMSourceSpecification, type StyleSpecification } from 'maplibre-gl';
+import { PUBLIC_GPS_TRACES_URL } from '$env/static/public';
 import ignFrTopo from './custom/ign-fr-topo.json';
 import ignFrPlan from './custom/ign-fr-plan.json';
 import ignFrSatellite from './custom/ign-fr-satellite.json';
 import bikerouterGravel from './custom/bikerouter-gravel.json';
 
 export const maptilerKeyPlaceHolder = 'MAPTILER_KEY';
+
+// Публичные GPS-треки OSM (аналог &layers=G на openstreetmap.org). Переопределяемо на случай
+// self-hosted зеркала (PUBLIC_GPS_TRACES_URL, шаблон {z}/{x}/{y}.png, см. CLAUDE.md).
+const gpsTracesBaseUrl = PUBLIC_GPS_TRACES_URL || 'https://gps.tile.openstreetmap.org/lines';
 
 export const basemaps: { [key: string]: string | StyleSpecification } = {
     // Базовый слой по умолчанию для форка: без ключа и лимитов, открытый CORS.
@@ -413,6 +418,26 @@ export const overlays: { [key: string]: string | StyleSpecification } = {
                 id: 'openRailwayMap',
                 type: 'raster',
                 source: 'openRailwayMap',
+            },
+        ],
+    },
+    gpsTraces: {
+        version: 8,
+        sources: {
+            gpsTraces: {
+                type: 'raster',
+                tiles: [`${gpsTracesBaseUrl}/{z}/{x}/{y}.png`],
+                tileSize: 256,
+                maxzoom: 20,
+                attribution:
+                    '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>',
+            },
+        },
+        layers: [
+            {
+                id: 'gpsTraces',
+                type: 'raster',
+                source: 'gpsTraces',
             },
         ],
     },
@@ -865,6 +890,7 @@ export const overlayTree: LayerTreeType = {
             },
             bikerouterGravel: true,
             cyclOSMlite: true,
+            gpsTraces: true,
             mapterhornHillshade: true,
             openRailwayMap: true,
         },
@@ -952,6 +978,7 @@ export const defaultOverlays: LayerTreeType = {
             },
             bikerouterGravel: false,
             cyclOSMlite: false,
+            gpsTraces: false,
             mapterhornHillshade: false,
             openRailwayMap: false,
         },
@@ -1089,6 +1116,7 @@ export const defaultOverlayTree: LayerTreeType = {
             },
             bikerouterGravel: false,
             cyclOSMlite: false,
+            gpsTraces: false,
             mapterhornHillshade: false,
             openRailwayMap: false,
         },

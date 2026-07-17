@@ -334,6 +334,7 @@
             "usgs": "USGS",
             "bikerouterGravel": "bikerouter.de Grind",
             "cyclOSMlite": "CyclOSM Lite",
+            "gpsTraces": "OSM GPS Traces",
             "mapterhornHillshade": "Mapterhorn Hillshade",
             "openRailwayMap": "OpenRailwayMap",
             "swisstopoSlope": "swisstopo Helling",

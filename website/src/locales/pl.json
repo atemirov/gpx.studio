@@ -334,6 +334,7 @@
             "usgs": "USGS",
             "bikerouterGravel": "bikerouter.de Gravel",
             "cyclOSMlite": "CyclOSM Lite",
+            "gpsTraces": "OSM GPS Traces",
             "mapterhornHillshade": "Cieniowanie terenu Mapterhorn",
             "openRailwayMap": "OpenRailwayMap",
             "swisstopoSlope": "swisstopo Stoki",
