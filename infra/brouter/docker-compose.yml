@@ -11,9 +11,12 @@ services:
       - "127.0.0.1:17777:17777"
     volumes:
       - ./segments4:/segments4:ro
-      # Штатные профили из образа (/profiles2) не переопределяем —
-      # кастомные профили (например, "эндуро" на базе вело) кладём сюда:
-      - ./customprofiles:/customprofiles:ro
+      # ВАЖНО: CUSTOMPROFILESPATH (/customprofiles) в этой сборке образа не работает —
+      # RouteServer игнорирует customProfileDir и всегда ищет profile=<имя> только в
+      # PROFILESPATH. Поэтому кастомные профили кладём прямо в переопределённый /profiles2
+      # (это КОПИЯ штатных профилей образа + наши добавленные, не auto-sync — при обновлении
+      # образа возможен дрейф, см. infra/brouter/README.md).
+      - ./profiles2:/profiles2:ro
     logging:
       driver: "json-file"
       options:
