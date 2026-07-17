@@ -7,6 +7,12 @@ import { PUBLIC_OSM_API_URL } from '$env/static/public';
 const OSM_API_BASE = PUBLIC_OSM_API_URL || 'https://api.openstreetmap.org';
 const MAX_POINTS_PER_PAGE = 5000;
 const MAX_BACKOFF_MS = 60_000;
+// В плотных по трекам городах (проверено на Амстердам-центре) страниц может быть сотни —
+// без предела пагинация уходит в 100+ последовательных запросов на один тайл. Ограничиваем
+// в том же духе, что и currentTiles.size > 5 в osm-traces-layer.ts (простой прагматичный cap,
+// как лимит параллельных запросов у overpass-layer.ts) — частичный результат лучше, чем
+// бесконтрольная нагрузка на api.openstreetmap.org.
+const MAX_PAGES = 25;
 
 function countTrackpoints(gpxText: string): number {
     // Дешёвая оценка без полного парсинга — считаем открывающие теги <trkpt
@@ -81,6 +87,9 @@ export async function fetchTrackpoints(
             break; // последняя страница
         }
         page++;
+        if (page >= MAX_PAGES) {
+            break; // достигнут предел — отдаём частичный результат вместо бесконечной пагинации
+        }
     }
 
     return features;
