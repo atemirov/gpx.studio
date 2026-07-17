@@ -287,6 +287,9 @@
         },
         "opacity": "Opacidad de la capa superpuesta",
         "terrain": "Origen del terreno",
+        "osm_traces": "Public OSM GPS traces",
+        "osm_traces_enabled": "Show traces",
+        "osm_traces_reference": "Use as reference (do not reload on map move)",
         "label": {
             "basemaps": "Mapas base",
             "overlays": "Capas",

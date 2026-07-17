@@ -287,6 +287,9 @@
         },
         "opacity": "Katman şeffaflığı",
         "terrain": "Terrain source",
+        "osm_traces": "Public OSM GPS traces",
+        "osm_traces_enabled": "Show traces",
+        "osm_traces_reference": "Use as reference (do not reload on map move)",
         "label": {
             "basemaps": "Temel haritalar",
             "overlays": "Katmanlar",

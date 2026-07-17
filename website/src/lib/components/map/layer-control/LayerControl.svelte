@@ -2,6 +2,7 @@
     import CustomControl from '$lib/components/map/custom-control/CustomControl.svelte';
     import LayerTree from './LayerTree.svelte';
     import { OverpassLayer } from './overpass-layer';
+    import { OSMTracesLayer } from '$lib/osm-traces/osm-traces-layer';
     import { Separator } from '$lib/components/ui/separator';
     import { ScrollArea } from '$lib/components/ui/scroll-area/index.js';
     import { Layers } from '@lucide/svelte';
@@ -10,6 +11,7 @@
 
     let container: HTMLDivElement;
     let overpassLayer: OverpassLayer;
+    let osmTracesLayer: OSMTracesLayer;
 
     const {
         currentBasemap,
@@ -27,6 +29,12 @@
         }
         overpassLayer = new OverpassLayer(_map, map.layerEventManager!);
         overpassLayer.add();
+
+        if (osmTracesLayer) {
+            osmTracesLayer.remove();
+        }
+        osmTracesLayer = new OSMTracesLayer(_map);
+        osmTracesLayer.add();
     });
 
     let open = $state(false);

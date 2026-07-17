@@ -287,6 +287,9 @@
         },
         "opacity": "图层透明度",
         "terrain": "地形来源",
+        "osm_traces": "Public OSM GPS traces",
+        "osm_traces_enabled": "Show traces",
+        "osm_traces_reference": "Use as reference (do not reload on map move)",
         "label": {
             "basemaps": "底图",
             "overlays": "叠加层",

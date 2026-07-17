@@ -7,6 +7,7 @@
     import { Label } from '$lib/components/ui/label';
     import * as Select from '$lib/components/ui/select';
     import { Slider } from '$lib/components/ui/slider';
+    import { Switch } from '$lib/components/ui/switch';
     import {
         basemapTree,
         defaultBasemap,
@@ -33,6 +34,11 @@
         customLayers,
         opacities,
         terrainSource,
+        osmTracesEnabled,
+        osmTracesReference,
+        osmTracesColor,
+        osmTracesWidth,
+        osmTracesOpacity,
     } = settings;
 
     const { isLayerFromExtension, getLayerName } = extensionAPI;
@@ -254,6 +260,59 @@
                                     {/each}
                                 </Select.Content>
                             </Select.Root>
+                        </Accordion.Content>
+                    </Accordion.Item>
+                    <Accordion.Item value="osm-traces">
+                        <Accordion.Trigger>{i18n._('layers.osm_traces')}</Accordion.Trigger>
+                        <Accordion.Content
+                            class="flex flex-col gap-3 overflow-visible border rounded-md px-3 py-2 mb-1.5"
+                        >
+                            <Label class="flex flex-row justify-between items-center">
+                                {i18n._('layers.osm_traces_enabled')}
+                                <Switch bind:checked={$osmTracesEnabled} />
+                            </Label>
+                            <Label class="flex flex-row justify-between items-center">
+                                {i18n._('layers.osm_traces_reference')}
+                                <Switch
+                                    bind:checked={$osmTracesReference}
+                                    disabled={!$osmTracesEnabled}
+                                />
+                            </Label>
+                            <Label class="flex flex-row gap-6 items-center">
+                                {i18n._('menu.style.color')}
+                                <input
+                                    type="color"
+                                    bind:value={$osmTracesColor}
+                                    disabled={!$osmTracesEnabled}
+                                    class="ml-auto h-7 w-12 rounded border"
+                                />
+                            </Label>
+                            <Label class="flex flex-row gap-6 items-center">
+                                {i18n._('menu.style.width')}
+                                <div class="p-2 pr-3 grow">
+                                    <Slider
+                                        bind:value={$osmTracesWidth}
+                                        type="single"
+                                        min={1}
+                                        max={6}
+                                        step={0.5}
+                                        disabled={!$osmTracesEnabled}
+                                    />
+                                </div>
+                            </Label>
+                            <Label class="flex flex-row gap-6 items-center">
+                                {i18n._('menu.style.opacity')}
+                                <div class="p-2 pr-3 grow">
+                                    <Slider
+                                        bind:value={$osmTracesOpacity}
+                                        type="single"
+                                        min={0.1}
+                                        max={1}
+                                        step={0.1}
+                                        disabled={!$osmTracesEnabled}
+                                    />
+                                </div>
+                            </Label>
                         </Accordion.Content>
                     </Accordion.Item>
                 </Accordion.Root>

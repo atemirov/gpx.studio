@@ -311,6 +311,12 @@ export const settings = {
     ),
     directionMarkers: new Setting('directionMarkers', false),
     distanceMarkers: new Setting('distanceMarkers', false),
+    // Фаза 4, Уровень 2: векторные GPS-треки OSM (website/src/lib/osm-traces/)
+    osmTracesEnabled: new Setting('osmTracesEnabled', false),
+    osmTracesReference: new Setting('osmTracesReference', false),
+    osmTracesColor: new Setting('osmTracesColor', '#e91e8c'),
+    osmTracesWidth: new Setting('osmTracesWidth', 2),
+    osmTracesOpacity: new Setting('osmTracesOpacity', 0.6),
     streetViewSource: new Setting<StreetViewSource>(
         'streetViewSource',
         'mapillary',

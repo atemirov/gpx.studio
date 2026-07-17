@@ -18,6 +18,8 @@ export class Database extends Dexie {
         { query: string; id: number; poi: GeoJSON.Feature },
         [string, number]
     >;
+    osmtracetiles!: Dexie.Table<{ x: number; y: number; time: number }, [number, number]>;
+    osmtracedata!: Dexie.Table<{ x: number; y: number; id: string; trace: GeoJSON.Feature }, string>;
 
     constructor() {
         super('Database', {
@@ -30,6 +32,10 @@ export class Database extends Dexie {
             settings: '',
             overpasstiles: '[query+x+y],[x+y]',
             overpassdata: '[query+id]',
+        });
+        this.version(2).stores({
+            osmtracetiles: '[x+y]',
+            osmtracedata: '&id,[x+y]',
         });
     }
 }
