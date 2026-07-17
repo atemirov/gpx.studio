@@ -37,9 +37,23 @@
   Cron на VPS: ротация TLS-сертификата + еженедельное обновление сегментов BRouter.
   **Не сделано:** профиль «эндуро» (задел есть, `infra/brouter/customprofiles/` монтируется,
   профиль не написан); CI/CD-деплой (сейчас вручную scp, см. Фазу 5).
-  **Бэклог профилей BRouter (озвучено пользователем 2026-07-16, делать позже — сверить точные
-  имена с реальным списком профилей перед добавлением, не по памяти):** Gravel "m11n" (more
-  offroad, beta), FFMbyBicycle Long Distance.
+  **Бэклог профилей BRouter — начато 2026-07-17, упёрлось в баг сервера, отложено.** Источники
+  найдены и подтверждены реальными: `bikerouter.de/profiles/m11n-gravel-pre.brf` (автор Ess Bee,
+  на базе fastbike-lowtraffic, gravel/fine-gravel с приоритетом tracktype=grade2) и
+  `github.com/FFMbyBicycle/brouter-cycling-profiles` →
+  `FFMbyBicycle-long-distance-cycling.brf` (GPLv3). Оба файла скачаны на VPS в
+  `infra/brouter/customprofiles/` (`gravel-m11n.brf`, `ffm-long-distance.brf`), видны внутри
+  контейнера (`docker exec gpx_brouter ls /customprofiles/`). **Не работает:** запрос
+  `profile=custom_gravel-m11n` (нужный префикс `custom_`, константа `ProfileUploadHandler.
+  CUSTOM_PREFIX` в исходниках brouter) даёт HTTP 500,
+  `java.lang.IllegalArgumentException: profile gravel-m11n.brf does not exist` — сервер
+  распознаёт префикс (по логам видно, что пытается резолвить путь), но файл всё равно не находит,
+  хотя он точно на месте с правильными правами. Похоже на расхождение между актуальным исходным
+  кодом на GitHub (`master`) и тем, что реально собрано в образе `ghcr.io/abrensch/brouter:nightly`
+  (см. граблю с версией `lookups.dat` в `infra/brouter/README.md` — тот же образ уже подводил).
+  Нужно отдельное разбирательство (возможно, другая версия аргументов `RouteServer`, или
+  `-DprofileBaseDir` JVM-property, который в `server.sh` не выставлен). Файлы профилей на VPS не
+  трогать при следующем заходе — уже подтверждённо на месте, экономит время.
 - Задача 2.3 (высоты) — **done.** `utils.ts`: `getElevation` переведён с
   `tiles.gpx.studio/mapterhorn` (CORS) на `tiles.mapterhorn.com` (открытый, тот же формат/размер
   тайлов) — URL в `PUBLIC_ELEVATION_URL`. Заодно починен реальный баг: необработанный
