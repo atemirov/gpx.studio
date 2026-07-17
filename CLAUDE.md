@@ -28,9 +28,16 @@ cd gpx && npm install && npm run build
 cd website && npm install
 npm run dev        # dev-сервер
 npm run build      # production-статика
-npm run test       # тесты (Vitest)
+npm run test:e2e   # Playwright-смок (страница открывается, GPX грузится, трек на карте)
 npm run lint       # ESLint + Prettier
 ```
+
+Playwright: `npx playwright install chromium chromium-headless-shell` — один раз перед первым
+запуском (браузерные бинарники не коммитятся). Если `cdn.playwright.dev` недоступен из твоей
+сети (наблюдалось в песочнице агента — полный TCP-таймаут, не просто медленно), поставь через
+зеркало: `PLAYWRIGHT_DOWNLOAD_HOST=https://registry.npmmirror.com/-/binary/playwright npx
+playwright install chromium chromium-headless-shell`. Тесты сами поднимают dev-сервер на
+`127.0.0.1:5273` (см. `website/playwright.config.ts`) — руками поднимать не нужно.
 
 Версия Node.js — см. `.nvmrc` (фиксируется в Фазе 0).
 
